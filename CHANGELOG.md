@@ -17,7 +17,7 @@
 - `.gitignore`：排除 `dist/`、`node_modules/` 等。
 - `.gitattributes`：统一换行为 LF，避免跨平台 clone 后文件差异。
 - `repository` 与 `keywords` 字段，指向 `github.com/BinGuinie/dsh-deepseek-balance`。
-- README 安装命令改为 Git 方式（`git+https://github.com/BinGuinie/dsh-deepseek-balance.git`），本地开发仍可用 `link:`。
+- package.json 的 description 改为中英双语的功能描述，替换原先的架构描述（后者假设读者了解 host/client 两半区的内部结构）。README 安装命令改为 Git 方式（`git+https://github.com/BinGuinie/dsh-deepseek-balance.git`），本地开发仍可用 `link:`。
 
 ### 变更
 
