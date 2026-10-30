@@ -15,7 +15,9 @@
 
 - `LICENSE`：GPL-3.0-or-later 全文 + 版权声明。此前 `package.json` 虽标注 MIT，但仓库里没有许可文件。
 - `.gitignore`：排除 `dist/`、`node_modules/` 等。
+- `.gitattributes`：统一换行为 LF，避免跨平台 clone 后文件差异。
 - `repository` 与 `keywords` 字段，指向 `github.com/BinGuinie/dsh-deepseek-balance`。
+- README 安装命令改为 Git 方式（`git+https://github.com/BinGuinie/dsh-deepseek-balance.git`），本地开发仍可用 `link:`。
 
 ### 变更
 

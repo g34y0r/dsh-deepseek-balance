@@ -53,7 +53,7 @@ dsh plugin --profile web allow-version dsh-deepseek-balance@1.1.0 --dsh-version 
 
 ```powershell
 $dsh = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd"
-& $dsh plugin --profile web add "link:C:/Users/g34y0r/dsh-projects/dsh-deepseek-balance"
+& $dsh plugin --profile web add "git+https://github.com/BinGuinie/dsh-deepseek-balance.git"
 ```
 
 桌面版把 `--profile web` 换成 `desktop`，然后**右键托盘图标完全退出**再启动（关窗口不够）。
@@ -62,11 +62,17 @@ $dsh = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\ds
 
 - `--profile` 必须紧跟 `plugin` 之后 —— `plugin --profile web add <spec>` ✅ /
   `plugin add --profile web <spec>` ❌
-- 路径用正斜杠，反斜杠会被 CLI 误解析
 - 装完**不要**手工编辑 `cordis.patch.yml`。本包自带 `dsh.bundle`，CLI 会自动写入
   `dsh.profile.bundles`；再手工 insert 会注册两遍。该文件保持 `[]` 即可
+- 首次安装需要网络（从 GitHub 拉取），之后无需联网
 
-**离线安装**：`dist/` 下的 `.tgz`（9 个文件）与 `-offline.zip`（13 个文件，多带
+**本地开发安装**：克隆后改用 `link:` 指向本地目录，改动即时生效：
+
+```powershell
+& $dsh plugin --profile web add "link:C:/path/to/dsh-deepseek-balance"
+```
+
+**离线安装**：`dist/` 下的 `.tgz`（10 个文件）与 `-offline.zip`（14 个文件，多带
 `tests/` 与 `sync-profiles.ps1`）运行时内容相同，零依赖零网络请求：
 
 ```powershell
