@@ -13,11 +13,12 @@
 
 ### 新增
 
-- `LICENSE`：GPL-3.0-or-later 全文 + 版权声明。此前 `package.json` 虽标注 MIT，但仓库里没有许可文件。
+- **`LICENSE`**：GPL-3.0-or-later 正文。此前 `package.json` 虽标注 MIT，但仓库里没有许可文件。
 - `.gitignore`：排除 `dist/`、`node_modules/` 等。
 - `.gitattributes`：统一换行为 LF，避免跨平台 clone 后文件差异。
-- `repository` 与 `keywords` 字段，指向 `github.com/BinGuinie/dsh-deepseek-balance`。
-- package.json 的 description 改为中英双语的功能描述，替换原先的架构描述（后者假设读者了解 host/client 两半区的内部结构）。README 安装命令改为 Git 方式（`git+https://github.com/BinGuinie/dsh-deepseek-balance.git`），本地开发仍可用 `link:`。
+- **`repository`、`keywords`、`author`** 字段，指向 `github.com/BinGuinie/dsh-deepseek-balance`。
+- **`description` 改为中英双语的功能描述**，替换原先的架构描述（后者假设读者了解 host/client 两半区的内部结构）。
+- README 安装命令改为 Git 方式（`git+https://github.com/BinGuinie/dsh-deepseek-balance.git`），本地开发仍可用 `link:`。
 
 ### 变更
 
@@ -30,6 +31,10 @@
 - **只发布 `.tgz`，不再生成 `-offline.zip`**。两个产物内容相同时只保留标准格式，不必让用户选择。
 - **安装包只含运行时文件**（10 个）。`tests/` 与 `sync-profiles.ps1` 是开发用的，只存在于仓库，不随安装包发布。此前 zip 多带了这两类文件，占了体积七成，而下载者不会运行它们。
 - 版本号 `1.0.3` → `1.1.0`。改用次版本号是因为改名属于破坏性变更。
+
+### 修复
+
+- **`LICENSE` 只放 GPL 正文**，自定义版权声明移到 README 与 `package.json` 的 `author`。此前在文件顶部加了 15 行说明，导致 GitHub 许可识别器匹配失败，仓库显示为「未识别」而不是 GPL-3.0。
 
 ### 升级说明
 
