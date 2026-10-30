@@ -22,6 +22,7 @@
     "LICENSE"
   ],
   "license": "GPL-3.0-or-later",
+  "author": "BinGuinie",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BinGuinie/dsh-deepseek-balance.git"
@@ -30,8 +31,7 @@
     "dsh",
     "dsh-plugin",
     "deepseek",
-    "balance",
-    "api-usage"
+    "balance"
   ],
   "comment:runtime-deps": "Deliberately dependency-free. The host half imports NOTHING from @deepseek-ai/* so it cannot be broken by a profile that hoists a different dsh runtime version (the desktop app bundles its own runtime inside app.asar while the profile's node_modules may expose another). Config validation is hand-written for the same reason.",
   "dependencies": {},

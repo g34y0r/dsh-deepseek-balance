@@ -293,3 +293,5 @@ profile 看输出。注意 `node.exe` **读不到 `app.asar` 内部**，直接�
 ## 许可
 
 [GPL-3.0-or-later](./LICENSE)。你可以自由使用、修改、分发，但基于它的衍生作品也必须以同样的协议开源。
+
+Copyright (C) 2026 BinGuinie
