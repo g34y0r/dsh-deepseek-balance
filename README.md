@@ -72,12 +72,14 @@ $dsh = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\ds
 & $dsh plugin --profile web add "link:C:/path/to/dsh-deepseek-balance"
 ```
 
-**离线安装**：`dist/` 下的 `.tgz`（10 个文件）与 `-offline.zip`（14 个文件，多带
-`tests/` 与 `sync-profiles.ps1`）运行时内容相同，零依赖零网络请求：
+**离线安装**：`dist/` 下的 `.tgz` 与 `-offline.zip` **内容完全相同**（10 个文件），
+零依赖零网络请求。任选其一：
 
 ```powershell
 & $dsh plugin --profile web add "<路径>\dsh-deepseek-balance-1.1.0.tgz"
 ```
+
+`tests/` 与 `sync-profiles.ps1` 是开发用的，只存在于仓库，不随安装包发布。
 
 ---
 
@@ -272,7 +274,8 @@ profile 看输出。注意 `node.exe` **读不到 `app.asar` 内部**，直接�
 
 **② 改版本号** —— `package.json` 与 `manifest.json` 的 `version`。
 
-**③ 打包** —— 重打 `dist/` 下的 tgz 与 zip。
+**③ 打包** —— 重打 `dist/` 下的 tgz 与 zip。**两者内容必须完全相同**：只放 `package.json`
+的 `files` 列出的运行时文件，`tests/` 与 `sync-profiles.ps1` 不随安装包发布。
 
 **④ 存档** —— 复制到 `Desktop\dsh-deepseek-balance\<X>\`（每版一子目录，只放这两个文件）。
 
