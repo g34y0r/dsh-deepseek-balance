@@ -175,9 +175,13 @@ dsh-deepseek-balance/
 ├── manifest.json               # 给 DSH 读的元数据（非人类文档）
 ├── tests/                      # 34 项零依赖自检
 ├── CHANGELOG.md                # 版本变动
+├── LICENSE                     # GPL-3.0
 ├── sync-profiles.ps1           # 开发用：同步到多个 profile（不随 tgz 发布）
+├── .gitignore / .gitattributes
 └── README.md
 ```
+
+安装包里只有 `package.json` 的 `files` 列出的 10 个文件；`tests/` 与 `sync-profiles.ps1` 只在仓库中。
 
 ---
 
