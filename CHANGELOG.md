@@ -24,6 +24,11 @@
 - **许可由 MIT 改为 GPL-3.0-or-later**（`package.json` 与 `manifest.json`）。选 GPL 是为了要求衍生作品同样开源。
 - **包名 `dsh-plugin-api-usage` → `dsh-deepseek-balance`**。同步 `package.json` 的 `name`、`manifest.json` 的 `id`、`cordis.patch.yml` 的 `name`、`lib/` 两半区的模块身份、测试断言与文档。
 - **行 id 与端点路径同步改名**：`ds-api-usage` → `deepseek-balance`。涉及 `cordis.patch.yml` 的 `- id:`、端点 `/deepseek-balance/state`、locale 命名空间、样式标签与 `localStorage` 键。包名、清单 id、模块 id、行 id 四处现已对齐。
+
+### 打包
+
+- **只发布 `.tgz`，不再生成 `-offline.zip`**。两个产物内容相同时只保留标准格式，不必让用户选择。
+- **安装包只含运行时文件**（10 个）。`tests/` 与 `sync-profiles.ps1` 是开发用的，只存在于仓库，不随安装包发布。此前 zip 多带了这两类文件，占了体积七成，而下载者不会运行它们。
 - 版本号 `1.0.3` → `1.1.0`。改用次版本号是因为改名属于破坏性变更。
 
 ### 升级说明
