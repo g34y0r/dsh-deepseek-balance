@@ -1,0 +1,17 @@
+# Build output — regenerate with `npm pack`, never commit
+dist/
+
+# Dependencies (this project has none, but keep the rule for safety)
+node_modules/
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Local logs and scratch files
+*.log
+*.tmp

@@ -1,0 +1,13 @@
+# Normalize line endings so the repo does not churn across platforms.
+# Text files are stored as LF and checked out as LF, regardless of the OS.
+* text=auto eol=lf
+
+# PowerShell must stay LF: the .ps1 carries a UTF-8 BOM and is read by
+# Windows PowerShell 5.1, which dislikes CRLF-converted copies of it.
+*.ps1 text eol=lf
+
+# Binary artifacts, if any ever land in the tree.
+*.png binary
+*.jpg binary
+*.zip binary
+*.tgz binary

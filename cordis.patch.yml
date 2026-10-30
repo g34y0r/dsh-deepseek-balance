@@ -1,0 +1,18 @@
+# The dsh-deepseek-balance bundle patch: mounts this package's host half.
+#
+# This file is what makes the plugin addressable by the profile's 插件 page.
+# That page (dsh-client-ui-plugin-manager) lists BUNDLES and the rows their
+# patches declare; a package that declares no dsh.bundle never appears there,
+# however it was installed.
+#
+# Shape deliberately mirrors dsh-hot-reload: the row's `name` is THIS package's
+# name, so the card owns the row and its switch toggles this plugin.
+#
+# The row id (`deepseek-balance`) is what the page keys toggles on, and what lands
+# in the profile's cordis.patch.yml as an `- id: deepseek-balance` + `disabled: true`
+# override. Keep it stable.
+
+- insert:
+    - id: deepseek-balance
+      name: dsh-deepseek-balance
+      config: {}

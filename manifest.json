@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "dsh-deepseek-balance",
+  "name": "DeepSeek API 余额",
+  "nameEn": "DeepSeek API Balance",
+  "version": "1.1.0",
+  "kind": "dual-half-client-plugin",
+  "platform": "web",
+  "runs_on": [
+    "dsh web (browser surface)",
+    "dsh Desktop app (Electron; same dsh-base + dsh-web-app composition)"
+  ],
+  "entryPoints": {
+    "host": "lib/index.js",
+    "client": "lib/client.js"
+  },
+  "loaderEntry": {
+    "id": "deepseek-balance",
+    "name": "dsh-deepseek-balance"
+  },
+  "slots": [
+    {
+      "name": "conversation.input.right",
+      "kind": "list",
+      "scope": "session",
+      "position": "composer input-bar trailing zone — right of the textarea, before the model selector and send button",
+      "entryId": "deepseek-balance",
+      "order": 0
+    }
+  ],
+  "servicesInjected": {
+    "host": [
+      "credentials",
+      "webServer"
+    ],
+    "client": [
+      "locale",
+      "slots"
+    ]
+  },
+  "endpoints": {
+    "state": {
+      "method": "GET / HEAD",
+      "path": "/deepseek-balance/state",
+      "purpose": "Returns the official account balance (total_balance) plus the snapshot timestamp. The browser half polls it; the API key is resolved on the host and never appears in a response."
+    }
+  },
+  "config": {
+    "baseURL": {
+      "type": "string",
+      "default": "https://api.deepseek.com",
+      "description": "DeepSeek API base URL. The balance endpoint is <baseURL>/user/balance."
+    },
+    "apiKeyEnv": {
+      "type": "string",
+      "default": "DEEPSEEK_API_KEY",
+      "description": "Credential reference name to resolve (via ctx.credentials, then the environment, then ~/.dsh/.credentials.yaml)."
+    }
+  },
+  "dependencyPolicy": {
+    "runtime": "none",
+    "note": "The host half imports only node: builtins — no @deepseek-ai/* at all — so it cannot be broken by a profile whose node_modules resolves a different dsh runtime version than the one executing it. Config validation is hand-written (carrying the Standard Schema ~standard interface Cordis calls) rather than schema-package-driven, for the same reason."
+  },
+  "dataProvided": {
+    "balance": "Official GET /user/balance result: balance_infos[0].total_balance shown on the chip, in the account's reported currency.",
+    "breakdown": "balance_infos[0].topped_up_balance (充值) then .granted_balance (赠金), rendered as indented sub-rows under the total on hover — the user's own funds lead, the platform's gift follows. An absent field hides its row rather than showing 0.",
+    "updatedAt": "Timestamp of the last successful snapshot, shown as 更新时间."
+  },
+  "persistence": "None. The plugin is stateless: no token tracking, no baseline, no storage file.",
+  "behavior": {
+    "clickBalance": "Manual refresh (GET /deepseek-balance/state).",
+    "hover": "Glass tooltip showing 账户余额 with its 充值 / 赠金 breakdown as indented sub-rows, plus 更新时间 and the auto-refresh state.",
+    "autoRefresh": "Optional 5-minute polling toggle, default OFF, remembered per browser in localStorage.",
+    "animations": "None. Pure CSS with --dsw-* design tokens; no transitions, keyframes, or timer-driven repaints.",
+    "currency": "The balance renders in the account currency the official API reports (CNY for CN accounts)."
+  },
+  "install": {
+    "note": "This package IS a bundle (it declares dsh.bundle), which is what makes it appear on the profile's 插件 page with its own toggle. The page manages BUNDLES only; a package without dsh.bundle never shows up there no matter how it is installed.",
+    "requires": {
+      "enginesDsh": "*",
+      "testedWith": "0.2.x (verified on 0.2.1-rc.3)",
+      "note": "engines.dsh is deliberately '*' so ANY dsh runtime can install this package. dsh gates installation and loading separately: install always succeeds, but outside the tested 0.2.x line the loader skips this bundle — the 插件 page still shows the card, the composer shows no widget, and GET /deepseek-balance/state returns 404, with a 'skipping profile bundle ... incompatible' warning on stderr. That is a version mismatch, not a broken install.",
+      "exempt": "dsh plugin --profile web allow-version dsh-deepseek-balance@1.0.3 --dsh-version <runtime> --accept-risk",
+      "revoke": "dsh plugin --profile web revoke-version dsh-deepseek-balance@1.0.3 --dsh-version <runtime>",
+      "check": "dsh --version"
+    },
+    "bundle": {
+      "declares": "dsh.bundle.patch -> ./cordis.patch.yml",
+      "mounts": "itself — the patch row's name equals this package name",
+      "containing": "- insert:\n    - id: deepseek-balance\n      name: dsh-deepseek-balance\n      config: {}\n"
+    },
+    "profiles": {
+      "web": "dsh plugin --profile web add \"link:<absolute-path>\"",
+      "desktop": "& \"$env:LOCALAPPDATA\\Programs\\DeepSeek Harness\\resources\\runtime\\cli\\bin\\dsh.cmd\" plugin --profile desktop add \"link:<absolute-path>\""
+    },
+    "optionOrder": "--profile must follow `plugin` directly. `plugin add --profile web ...` fails with \"required option '--profile <name>' not specified\". Use forward slashes in link: paths.",
+    "autoSelection": "Because the package declares dsh.bundle, `dsh plugin add` appends its name to `dsh.profile.bundles` automatically — no hand-editing of the profile manifest.",
+    "patchYaml": "Leave the profile's cordis.patch.yml as `[]`. The deepseek-balance row comes from this package's own bundle patch; inserting it here as well would register the plugin twice. Toggles from the plugin page write id-targeted overrides into this file, which is correct.",
+    "restartRequired": true,
+    "see": "README.md"
+  },
+  "license": "GPL-3.0-or-later"
+}

@@ -1,0 +1,55 @@
+{
+  "name": "dsh-deepseek-balance",
+  "version": "1.1.0",
+  "description": "DeepSeek API account-balance widget for the dsh composer: a host half that serves the official /user/balance figure, and a browser half that renders a glassmorphism chip with click-to-refresh and a 5-minute auto-refresh toggle.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "locale/en.json",
+    "locale/zh.json",
+    "manifest.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BinGuinie/dsh-deepseek-balance.git"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "balance",
+    "api-usage"
+  ],
+  "comment:runtime-deps": "Deliberately dependency-free. The host half imports NOTHING from @deepseek-ai/* so it cannot be broken by a profile that hoists a different dsh runtime version (the desktop app bundles its own runtime inside app.asar while the profile's node_modules may expose another). Config validation is hand-written for the same reason.",
+  "dependencies": {},
+  "peerDependencies": {},
+  "comment:bundle": "dsh.bundle makes this package a profile layer, which is what the profile's 插件 page (dsh-client-ui-plugin-manager) manages: it lists BUNDLES and the rows their patches declare. A package without dsh.bundle is invisible to that page no matter how it is installed. cordis.patch.yml mounts this very package (name == this package name), the same shape as dsh-hot-reload, so the page's row belongs to this card and its switch toggles this plugin.",
+  "comment:engines-dsh": "DELIBERATELY PERMISSIVE. engines.dsh is the field the compatibility gate reads FIRST (see evaluatePluginCompatibility in @deepseek-ai/dsh-app-boot); when present it decides alone and peerDependencies are ignored. '*' lets users on ANY dsh runtime at least install the package instead of being refused outright. The trade-off is deliberate and must be told to users: on a runtime outside the tested line the gate still refuses to LOAD the bundle, so dsh prints 'skipping profile bundle ... incompatible ... may cause crashes or data loss' and the widget simply does not appear. The user then accepts the risk explicitly with `dsh plugin allow-version`, or rolls back. TESTED AND SUPPORTED: 0.2.x (0.2.0-rc.1 .. 0.2.9), verified on 0.2.1-rc.3. UNTESTED: everything else. The plugin imports no @deepseek-ai/* package, so the API surface it needs is small and stable (slots, webServer, credentials), which is why a wider range is plausible at all — but plausible is not verified.",
+  "dsh": {
+    "bundle": {
+      "patch": [
+        "./cordis.patch.yml"
+      ]
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "engines": {
+    "node": ">=20",
+    "dsh": "*"
+  }
+}
