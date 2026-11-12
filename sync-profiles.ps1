@@ -1,4 +1,4 @@
-﻿﻿<#
+﻿<#
 .SYNOPSIS
     把 dsh-deepseek-balance 重新安装到本机所有已安装它的 dsh profile。
 
