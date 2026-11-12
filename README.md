@@ -53,7 +53,7 @@ dsh plugin --profile web allow-version dsh-deepseek-balance@1.1.1 --dsh-version 
 
 ```powershell
 $dsh = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd"
-& $dsh plugin --profile web add "git+https://github.com/BinGuinie/dsh-deepseek-balance.git"
+& $dsh plugin --profile web add "git+https://github.com/g34y0r/dsh-deepseek-balance.git"
 ```
 
 桌面版把 `--profile web` 换成 `desktop`，然后**右键托盘图标完全退出**再启动（关窗口不够）。
@@ -307,4 +307,4 @@ profile 看输出。注意 `node.exe` **读不到 `app.asar` 内部**，直接�
 
 [GPL-3.0-or-later](./LICENSE)。你可以自由使用、修改、分发，但基于它的衍生作品也必须以同样的协议开源。
 
-Copyright (C) 2026 BinGuinie
+Copyright (C) 2026 g34y0r

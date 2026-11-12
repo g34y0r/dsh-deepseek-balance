@@ -22,10 +22,10 @@
     "LICENSE"
   ],
   "license": "GPL-3.0-or-later",
-  "author": "BinGuinie",
+  "author": "g34y0r",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BinGuinie/dsh-deepseek-balance.git"
+    "url": "git+https://github.com/g34y0r/dsh-deepseek-balance.git"
   },
   "keywords": [
     "dsh",

@@ -15,6 +15,7 @@
 
 - **验证范围扩到 `0.2.2-rc.1`**。此前的记录停在 `0.2.1-rc.5`。重新核对后，插件依赖的四个契约都没变：`conversation.input.right` 插槽、`window.__ModuleLoader__.load` 懒加载约定、`${包名}/locale/en.json` 卡片元数据、`engines.dsh` 优先的兼容性门禁。实测接口正常返回，加载器树仍恰好一行。
 - **端口不再写死**。README 的验证步骤改为自动发现：桌面版端口由启动器分配，实测从 `19387` 变成过 `58869`，profile 里也没有固定值。脚本改为列出该进程的所有监听端口，逐个试探本插件接口。
+- **仓库地址改为 `github.com/g34y0r/dsh-deepseek-balance`**。GitHub 账号改名后，`BinGuinie` 已不存在（旧地址靠重定向仍能访问）。README 的安装命令、`package.json` 的 `author` / `repository`、README 末尾的版权行同步更新。
 
 ### 修复
 
