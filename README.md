@@ -32,7 +32,7 @@ DeepSeek API **账户余额**。
 
 ## 适用的 dsh 版本
 
-**实测支持 dsh 0.2.x**（验证于 `0.2.1-rc.3`、`0.2.1-rc.5`）。查看版本：`dsh --version`
+**实测支持 dsh 0.2.x**（验证于 `0.2.1-rc.3`、`0.2.1-rc.5`、`0.2.2-rc.1`）。查看版本：`dsh --version`
 
 `engines.dsh = "*"` 是故意的放宽策略——任何版本都能**安装**。但**加载**仍受门禁约束：
 非 0.2.x 上 dsh 会打印 `skipping profile bundle ... incompatible`，插件页有卡片、
@@ -41,7 +41,7 @@ DeepSeek API **账户余额**。
 要继续用，授权该精确版本后重启：
 
 ```powershell
-dsh plugin --profile web allow-version dsh-deepseek-balance@1.1.0 --dsh-version <你的版本> --accept-risk
+dsh plugin --profile web allow-version dsh-deepseek-balance@1.1.1 --dsh-version <你的版本> --accept-risk
 ```
 
 不行则用 `revoke-version` 撤销并 `remove` 卸载。授权**逐版本、逐插件**，升级后不继承。
@@ -75,7 +75,7 @@ $dsh = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\ds
 **离线安装**：下载 `.tgz`（10 个文件），零依赖零网络请求：
 
 ```powershell
-& $dsh plugin --profile web add "<路径>\dsh-deepseek-balance-1.1.0.tgz"
+& $dsh plugin --profile web add "<路径>\dsh-deepseek-balance-1.1.1.tgz"
 ```
 
 `tests/` 与 `sync-profiles.ps1` 是开发用的，只存在于仓库，不随安装包发布。
@@ -87,11 +87,20 @@ $dsh = "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\ds
 ### 接口
 
 ```powershell
-Invoke-RestMethod http://127.0.0.1:3080/deepseek-balance/state | ConvertTo-Json -Depth 5
+# 桌面版每次启动的端口不固定，先把它找出来
+$ids = @(Get-Process "DeepSeek Harness" -ErrorAction SilentlyContinue).Id
+$ports = Get-NetTCPConnection -State Listen |
+  Where-Object { $ids -contains $_.OwningProcess } |
+  Select-Object -ExpandProperty LocalPort -Unique
+
+foreach ($p in $ports) {
+  try { Invoke-RestMethod "http://127.0.0.1:$p/deepseek-balance/state" -TimeoutSec 2 } catch { }
+}
 ```
 
-web 版端口 `3080`，桌面版 `19387`（也可能以 `--profile web` 启动而监听 3080，
-先用 `Get-NetTCPConnection -LocalPort 3080,19387 -State Listen` 确认）。
+**不要写死端口。** web 版默认 `3080`（`--port` 可改），桌面版由启动器分配空闲端口——
+实测在 `0.2.2-rc.1` 上从 `19387` 变成了 `58869`，profile 里也没有固定它。
+上面的脚本列出该进程的所有监听端口，逐个试探本插件接口，返回 JSON 的那个就是。
 
 ```json
 {
@@ -107,7 +116,7 @@ web 版端口 `3080`，桌面版 `19387`（也可能以 `--profile web` 启动�
 |---|---|
 | `200` | 正常 |
 | `404` | host 半区没加载 —— 检查 `bundles` 是否含本包、是否已重启、开关是否被关掉 |
-| `401` | 被桌面版信任围栏拦下，加 `-Headers @{Host='127.0.0.1:19387'}` 重试 |
+| `401` | 拦住的是**界面页面**，本插件接口不受影响。旧版「加 `Host` 头绕过」在 `0.2.2-rc.1` 上已无效；网页版用 `--trusted-host <host:port>` 把该 authority 放进白名单 |
 
 ### 加载器树
 

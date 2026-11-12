@@ -3,7 +3,7 @@
   "id": "dsh-deepseek-balance",
   "name": "DeepSeek API 余额",
   "nameEn": "DeepSeek API Balance",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "kind": "dual-half-client-plugin",
   "platform": "web",
   "runs_on": [
@@ -78,10 +78,10 @@
     "note": "This package IS a bundle (it declares dsh.bundle), which is what makes it appear on the profile's 插件 page with its own toggle. The page manages BUNDLES only; a package without dsh.bundle never shows up there no matter how it is installed.",
     "requires": {
       "enginesDsh": "*",
-      "testedWith": "0.2.x (verified on 0.2.1-rc.3)",
+      "testedWith": "0.2.x (verified on 0.2.1-rc.3, 0.2.1-rc.5, 0.2.2-rc.1)",
       "note": "engines.dsh is deliberately '*' so ANY dsh runtime can install this package. dsh gates installation and loading separately: install always succeeds, but outside the tested 0.2.x line the loader skips this bundle — the 插件 page still shows the card, the composer shows no widget, and GET /deepseek-balance/state returns 404, with a 'skipping profile bundle ... incompatible' warning on stderr. That is a version mismatch, not a broken install.",
-      "exempt": "dsh plugin --profile web allow-version dsh-deepseek-balance@1.0.3 --dsh-version <runtime> --accept-risk",
-      "revoke": "dsh plugin --profile web revoke-version dsh-deepseek-balance@1.0.3 --dsh-version <runtime>",
+      "exempt": "dsh plugin --profile web allow-version dsh-deepseek-balance@1.1.1 --dsh-version <runtime> --accept-risk",
+      "revoke": "dsh plugin --profile web revoke-version dsh-deepseek-balance@1.1.1 --dsh-version <runtime>",
       "check": "dsh --version"
     },
     "bundle": {
